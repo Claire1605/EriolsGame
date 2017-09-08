@@ -1,0 +1,18 @@
+TO DO:
+
+- Put all images in story manager
+- Add pop-up sections
+- format carriage returns
+- ending/remove next button?
+
+
+Suggestions:
+- different icon for next button if it's a new page next? .. probably not necessary really
+- Arrow controls as well as click? (move from section to section, page to page)
+- Is the more info you get from popups in-game or a URL?
+
+
+Popups:
+
+- Asset to click on
+- 
