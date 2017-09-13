@@ -8,4 +8,9 @@ public class PopUpExtended : PopUpExtras {
     {
         base.Interact();
     }
+
+    public override void EndInteract()
+    {
+        base.EndInteract();
+    }
 }

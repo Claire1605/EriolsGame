@@ -29,6 +29,7 @@ public class StoryManager : MonoBehaviour {
     [Serializable]
     public class Script
     {
+        [TextArea(1, 10)]
         public string mainScript;
         public GameObject clickableImage;
     }

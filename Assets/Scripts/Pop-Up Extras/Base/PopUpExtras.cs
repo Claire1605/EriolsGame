@@ -10,4 +10,15 @@ public class PopUpExtras : MonoBehaviour {
     {
         Debug.Log("The button worked");
     }
+
+    public virtual void EndInteract()
+    {
+        Debug.Log("End Interaction");
+    }
+
+    public virtual void PointerEnter()
+    {
+        Debug.Log("Mouse-over object worked");
+        gameObject.transform.SetAsLastSibling();
+    }
 }

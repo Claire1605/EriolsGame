@@ -11,7 +11,8 @@ public class ButtonBorder : MonoBehaviour {
 
     void Start()
     {
-        StartCoroutine(BorderWaves(GetComponent<Outline>()));
+        // StartCoroutine(BorderWaves(GetComponent<Outline>()));
+        Debug.Log(GetComponent<Outline>().effectDistance);
     }
 
     void Update()
@@ -25,12 +26,13 @@ public class ButtonBorder : MonoBehaviour {
 
     IEnumerator BorderWaves(Outline o)
     {
+        float max = o.effectDistance.y;
         float i = 0;
         while (doFade)
         {
             i += Time.deltaTime * 3;
             o.effectColor = new Color(o.effectColor.r, o.effectColor.g, o.effectColor.b, Mathf.Abs(Mathf.Sin(i)));
-            o.effectDistance = new Vector2(Mathf.Abs(Mathf.Sin(i)) * 5, Mathf.Abs(Mathf.Sin(i)) * 5);
+            o.effectDistance = new Vector2(Mathf.Abs(Mathf.Sin(i)) * max, Mathf.Abs(Mathf.Sin(i)) * max);
             yield return new WaitForEndOfFrame();
         }
         doOnce = false;

@@ -12,6 +12,8 @@ public class MoveThroughScript : MonoBehaviour {
     public static MoveThroughScript InputControllerInstance;
 
     [SerializeField]
+    private GameObject interactiveSprites;
+    [SerializeField]
     private Text mainText;
     [SerializeField]
     private Image bgrdImage;
@@ -45,8 +47,9 @@ public class MoveThroughScript : MonoBehaviour {
             //Fade out any pop-up images
             if (StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage != null)
             {
-                StartCoroutine(FadeImage(StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<Image>(), StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<Image>().sprite, true, false));
-                StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<ButtonBorder>().doFade = false; //Fading button outline
+                StartCoroutine(FadeImage(StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<Image>(), StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<Image>().sprite, true, false, false));
+                StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<ButtonBorder>().doFade = false;
+                StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<PopUpExtras>().EndInteract();
             }
 
             //Switch to next section, same page
@@ -57,8 +60,9 @@ public class MoveThroughScript : MonoBehaviour {
                 //Fade in any new pop-up images
                 if (StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage !=null)
                 {
-                    StartCoroutine(FadeImage(StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<Image>(), StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<Image>().sprite, false, true));
-                    StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<ButtonBorder>().doFade = true; //Fading button outline
+                    StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.SetActive(true);
+                    StartCoroutine(FadeImage(StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<Image>(), StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<Image>().sprite, false, true, false));
+                    StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<ButtonBorder>().doFade = true;
                 }
             }
             //Switch to next page
@@ -68,7 +72,7 @@ public class MoveThroughScript : MonoBehaviour {
                 StoryManager.Ins.cSection = 0;
                 StoryManager.Ins.cPage += 1;
                 StartCoroutine(FadeText());
-                StartCoroutine(FadeImage(bgrdImage, StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].pageBackground, true, true));
+                StartCoroutine(FadeImage(bgrdImage, StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].pageBackground, true, true, true));
             }
         }
     }
@@ -100,7 +104,7 @@ public class MoveThroughScript : MonoBehaviour {
         }
     }
 
-    IEnumerator FadeImage(Image image, Sprite sprite, bool fadeOut, bool fadeIn)
+    public IEnumerator FadeImage(Image image, Sprite sprite, bool fadeOut, bool fadeIn, bool bgrd)
     {
         float i = 0;
         float j = 0;
@@ -114,6 +118,8 @@ public class MoveThroughScript : MonoBehaviour {
                 image.color = new Color(image.color.r, image.color.g, image.color.b, alpha);
                 yield return new WaitForEndOfFrame();
             }
+            if (!bgrd)
+                image.gameObject.SetActive(false);
         }
         image.sprite = sprite;
         if (fadeIn)

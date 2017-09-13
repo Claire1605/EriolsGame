@@ -10,6 +10,10 @@ public class SetAlphas : MonoBehaviour {
         {
             item.color = new Color(item.color.r, item.color.g, item.color.b, 0);
         }
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            transform.GetChild(i).gameObject.SetActive(false);
+        }
 	}
 
 }

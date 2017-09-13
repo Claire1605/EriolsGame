@@ -2,8 +2,9 @@ TO DO:
 
 - Put all images in story manager
 - Add pop-up sections
-- format carriage returns
 - ending/remove next button?
+- where does the door image go?
+- missing image of paramedic and eriol in car
 
 
 Suggestions:
@@ -12,7 +13,4 @@ Suggestions:
 - Is the more info you get from popups in-game or a URL?
 
 
-Popups:
-
-- Asset to click on
-- 
+IMPORTANT - need to fix if extendable - the popup setactive will probably not work if there is only ONE popup in Interactive Sprites - test
