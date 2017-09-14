@@ -1,8 +1,7 @@
 TO DO:
 
-- Put all images in story manager
-- Add pop-up sections
-- ending/remove next button?
+- can drag car off the screen
+- can click through text quickly
 - where does the door image go?
 - missing image of paramedic and eriol in car
 

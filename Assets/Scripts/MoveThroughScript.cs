@@ -19,6 +19,8 @@ public class MoveThroughScript : MonoBehaviour {
     private Image bgrdImage;
     [SerializeField]
     private Image PUImage;
+    [SerializeField]
+    private GameObject exitButton;
 
     private bool canClickAgain = true;
 
@@ -47,9 +49,9 @@ public class MoveThroughScript : MonoBehaviour {
             //Fade out any pop-up images
             if (StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage != null)
             {
-                StartCoroutine(FadeImage(StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<Image>(), StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<Image>().sprite, true, false, false));
-                StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<ButtonBorder>().doFade = false;
                 StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<PopUpExtras>().EndInteract();
+                StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<ButtonBorder>().doFade = false;
+                StartCoroutine(FadeImage(StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<Image>(), StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<Image>().sprite, true, false, false));  
             }
 
             //Switch to next section, same page
@@ -58,7 +60,7 @@ public class MoveThroughScript : MonoBehaviour {
                 StoryManager.Ins.cSection += 1;
                 StartCoroutine(FadeText()); //Lerp fade text out, update text, then fade in
                 //Fade in any new pop-up images
-                if (StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage !=null)
+                if (StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage != null)
                 {
                     StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.SetActive(true);
                     StartCoroutine(FadeImage(StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<Image>(), StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<Image>().sprite, false, true, false));
@@ -73,6 +75,12 @@ public class MoveThroughScript : MonoBehaviour {
                 StoryManager.Ins.cPage += 1;
                 StartCoroutine(FadeText());
                 StartCoroutine(FadeImage(bgrdImage, StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].pageBackground, true, true, true));
+            }
+            else if (StoryManager.Ins.cSection == StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections.Count - 1
+                && StoryManager.Ins.cPage == StoryManager.Ins.StoryPages.Count - 1)
+            {
+                exitButton.SetActive(true);
+                exitButton.GetComponent<ButtonBorder>().doFade = true;
             }
         }
     }
@@ -129,6 +137,34 @@ public class MoveThroughScript : MonoBehaviour {
                 j += Time.deltaTime * StoryManager.Ins.textFadeSpeed;
                 alpha = Mathf.Lerp(0, 1, StoryManager.Ins.textFadeCurve.Evaluate(j));
                 image.color = new Color(image.color.r, image.color.g, image.color.b, alpha);
+                yield return new WaitForEndOfFrame();
+            }
+        }
+    }
+
+    public IEnumerator FadeOtherText(Text text, bool fadeOut, bool fadeIn)
+    {
+        float i = 0;
+        float j = 0;
+        float alpha = 1;
+        if (fadeOut)
+        {
+            while (i < 1)
+            {
+                i += Time.deltaTime * StoryManager.Ins.textFadeSpeed;
+                alpha = Mathf.Lerp(1, 0, StoryManager.Ins.textFadeCurve.Evaluate(i));
+                text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
+                yield return new WaitForEndOfFrame();
+            }
+            text.gameObject.SetActive(false);
+        }
+        if (fadeIn)
+        {
+            while (j < 1)
+            {
+                j += Time.deltaTime * StoryManager.Ins.textFadeSpeed;
+                alpha = Mathf.Lerp(0, 1, StoryManager.Ins.textFadeCurve.Evaluate(j));
+                text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
                 yield return new WaitForEndOfFrame();
             }
         }

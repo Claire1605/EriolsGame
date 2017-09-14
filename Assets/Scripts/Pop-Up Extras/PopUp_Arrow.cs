@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class PopUp_Arrow : PopUpExtras
 {
     [SerializeField]
+    private bool moveRight;
+    [SerializeField]
     private GameObject dragChair;
 
     private Vector3 startMousePos = new Vector3(0, 0);
@@ -38,12 +40,17 @@ public class PopUp_Arrow : PopUpExtras
     public void DragChair()
     {
         Debug.Log(GetComponent<RectTransform>().localPosition.x);
-        Vector3 currentPos = Input.mousePosition;
-        Vector3 diff = (currentPos/1.3f) - startMousePos;
+        Vector3 currentPos = moveRight? Input.mousePosition/1.3f : Input.mousePosition * 1.3f;
+        Vector3 diff = currentPos - startMousePos;
         Vector3 pos = arrowPos + diff;
         Vector3 posC = chairPos + diff;
-        if (transform.localPosition.x < pos.x &&
-            GetComponent<RectTransform>().localPosition.x < Screen.width/2 - 75)
+
+        if (moveRight && (transform.localPosition.x < pos.x && GetComponent<RectTransform>().localPosition.x < Screen.width / 2 - 75))
+        {
+            transform.localPosition = new Vector3(pos.x, arrowPos.y, 0);
+            dragChair.transform.localPosition = new Vector3(posC.x, chairPos.y, 0);
+        }
+        else if (!moveRight && (transform.localPosition.x > pos.x && GetComponent<RectTransform>().localPosition.x > -(Screen.width / 2) + 75))
         {
             transform.localPosition = new Vector3(pos.x, arrowPos.y, 0);
             dragChair.transform.localPosition = new Vector3(posC.x, chairPos.y, 0);
