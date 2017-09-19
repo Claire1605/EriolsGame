@@ -2,8 +2,7 @@ TO DO:
 
 - can drag car off the screen
 - can click through text quickly
-- where does the door image go?
-- missing image of paramedic and eriol in car
+-Can change outline to yellow but might need to write new script unless they are ok with multiply outline
 
 
 Suggestions:

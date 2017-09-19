@@ -6,7 +6,7 @@ public class PopUp_Pills : PopUpExtras {
 
     public override void Interact()
     {
-        Application.OpenURL("http://unity3d.com/"); // :O
+        base.Interact();
     }
 
     public override void EndInteract()
