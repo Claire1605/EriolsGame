@@ -7,8 +7,8 @@ public class PopUp_Chair : PopUpExtras {
 
     [SerializeField]
     private GameObject arrowObj;
-    [SerializeField]
-    private MoveThroughScript moveThroughScript;
+ //   [SerializeField]
+    //private MoveThroughScript moveThroughScript;
 
     public override void Interact()
     {

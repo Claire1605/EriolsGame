@@ -9,8 +9,8 @@ public class PopUp_CallButton : PopUpExtras {
     private GameObject phone;
     [SerializeField]
     private GameObject hand;
-    [SerializeField]
-    private MoveThroughScript moveThroughScript;
+  //  [SerializeField]
+  //  private MoveThroughScript moveThroughScript;
 
     public void Start()
     {

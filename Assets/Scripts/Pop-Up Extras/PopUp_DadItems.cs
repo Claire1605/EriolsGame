@@ -6,19 +6,18 @@ using UnityEngine.UI;
 public class PopUp_DadItems : PopUpExtras {
 
     public GameObject clickItems;
-    public MoveThroughScript moveThroughScript;
-
-    private int counter = -1;
+    public Image moreInfoBgrd;
+    [SerializeField]
+    private CloseMoreInfo closeButton;
 
     public override void Interact()
     {
-        counter *= -1;
-
-        if (counter > 0)
-        {
-            clickItems.gameObject.SetActive(true);
-
-            for (int i = 0; i < clickItems.transform.childCount; i++)
+        GetComponent<Button>().interactable = false;
+        moreInfoBgrd.gameObject.SetActive(true);
+        closeButton.setPopUpParent(GetComponent<Transform>().gameObject);
+        StartCoroutine(moveThroughScript.FadeImage(moreInfoBgrd, moreInfoBgrd.sprite, false, true, false));
+        clickItems.gameObject.SetActive(true);
+        for (int i = 0; i < clickItems.transform.childCount; i++)
             {
                 clickItems.transform.GetChild(i).gameObject.SetActive(true);
             }
@@ -27,16 +26,12 @@ public class PopUp_DadItems : PopUpExtras {
                 item.StartCoroutine(moveThroughScript.FadeImage(item, item.sprite, false, true, false));
                 item.gameObject.GetComponent<ButtonBorder>().doFade = true;
             }
-        }
-        else
-        {
-            EndInteract();
-        }
-       
+        StartCoroutine(moveThroughScript.FadeImage(nextButton.GetComponent<Image>(), nextButton.GetComponent<Image>().sprite, true, false, false));
     }
 
     public override void EndInteract()
     {
+        GetComponent<Button>().interactable = true;
         foreach (var item in clickItems.GetComponentsInChildren<Image>())
         {
             if (item.IsActive())

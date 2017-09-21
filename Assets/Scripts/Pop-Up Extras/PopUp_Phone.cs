@@ -9,8 +9,8 @@ public class PopUp_Phone : PopUpExtras {
     private Texture2D cursor;
     [SerializeField]
     private GameObject phone;
-    [SerializeField]
-    private MoveThroughScript moveThroughScript;
+  //  [SerializeField]
+  //  private MoveThroughScript moveThroughScript;
     private Vector2 offset = new Vector2(30, 0);
 
     public override void Interact()

@@ -20,9 +20,11 @@ public class MoveThroughScript : MonoBehaviour {
     [SerializeField]
     private Image PUImage;
     [SerializeField]
+    private GameObject nextButton;
+    [SerializeField]
     private GameObject exitButton;
-
-    private bool canClickAgain = true;
+    [HideInInspector]
+    public bool canClickAgain = true;
 
     void Awake()
     {
@@ -62,6 +64,7 @@ public class MoveThroughScript : MonoBehaviour {
                 //Fade in any new pop-up images
                 if (StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage != null)
                 {
+                    StartCoroutine(FadeImage(nextButton.GetComponent<Image>(), nextButton.GetComponent<Image>().sprite, true, false, false));
                     StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.SetActive(true);
                     StartCoroutine(FadeImage(StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<Image>(), StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<Image>().sprite, false, true, false));
                     StoryManager.Ins.StoryPages[StoryManager.Ins.cPage].PageSections[StoryManager.Ins.cSection].clickableImage.GetComponent<ButtonBorder>().doFade = true;
@@ -87,7 +90,7 @@ public class MoveThroughScript : MonoBehaviour {
 
     IEnumerator FadeText()
     {
-        canClickAgain = false;
+        //canClickAgain = false;
         float i = 0;
         float j = 0;
         float alpha = 1;
@@ -105,8 +108,8 @@ public class MoveThroughScript : MonoBehaviour {
             alpha = Mathf.Lerp(0, 1, StoryManager.Ins.textFadeCurve.Evaluate(j));
             mainText.color = new Color(mainText.color.r, mainText.color.g, mainText.color.b, alpha);
 
-            if (j>0.8f)
-                canClickAgain = true; //able to move forward slightly earlier than end fade
+           // if (j>0.8f)
+           //     canClickAgain = true; //able to move forward slightly earlier than end fade
 
             yield return new WaitForEndOfFrame();
         }
@@ -140,10 +143,12 @@ public class MoveThroughScript : MonoBehaviour {
                 yield return new WaitForEndOfFrame();
             }
         }
+        //canClickAgain = true;
     }
 
     public IEnumerator FadeOtherText(Text text, bool fadeOut, bool fadeIn)
     {
+       // canClickAgain = false;
         float i = 0;
         float j = 0;
         float alpha = 1;
@@ -165,8 +170,11 @@ public class MoveThroughScript : MonoBehaviour {
                 j += Time.deltaTime * StoryManager.Ins.textFadeSpeed;
                 alpha = Mathf.Lerp(0, 1, StoryManager.Ins.textFadeCurve.Evaluate(j));
                 text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
+              //  if (j > 0.8f)
+              //      canClickAgain = true; //able to move forward slightly earlier than end fade
                 yield return new WaitForEndOfFrame();
             }
         }
+        //canClickAgain = true;
     }
 }
