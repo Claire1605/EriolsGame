@@ -8,6 +8,8 @@ public class MoveThroughScript : MonoBehaviour {
 
     private static MoveThroughScript instance = null;
     private MoveThroughScript() { }
+    [HideInInspector]
+    public bool popUpTextActive = false;
 
     public static MoveThroughScript InputControllerInstance;
 
@@ -88,9 +90,9 @@ public class MoveThroughScript : MonoBehaviour {
         }
     }
 
-    IEnumerator FadeText()
+    public IEnumerator FadeText()
     {
-        //canClickAgain = false;
+        canClickAgain = false;
         float i = 0;
         float j = 0;
         float alpha = 1;
@@ -107,16 +109,14 @@ public class MoveThroughScript : MonoBehaviour {
             j += Time.deltaTime * StoryManager.Ins.textFadeSpeed;
             alpha = Mathf.Lerp(0, 1, StoryManager.Ins.textFadeCurve.Evaluate(j));
             mainText.color = new Color(mainText.color.r, mainText.color.g, mainText.color.b, alpha);
-
-           // if (j>0.8f)
-           //     canClickAgain = true; //able to move forward slightly earlier than end fade
-
             yield return new WaitForEndOfFrame();
         }
+        canClickAgain = true;
     }
 
     public IEnumerator FadeImage(Image image, Sprite sprite, bool fadeOut, bool fadeIn, bool bgrd)
     {
+        canClickAgain = false;
         float i = 0;
         float j = 0;
         float alpha = 1;
@@ -143,12 +143,12 @@ public class MoveThroughScript : MonoBehaviour {
                 yield return new WaitForEndOfFrame();
             }
         }
-        //canClickAgain = true;
+        canClickAgain = true;
     }
 
     public IEnumerator FadeOtherText(Text text, bool fadeOut, bool fadeIn)
     {
-       // canClickAgain = false;
+        canClickAgain = false;
         float i = 0;
         float j = 0;
         float alpha = 1;
@@ -170,11 +170,9 @@ public class MoveThroughScript : MonoBehaviour {
                 j += Time.deltaTime * StoryManager.Ins.textFadeSpeed;
                 alpha = Mathf.Lerp(0, 1, StoryManager.Ins.textFadeCurve.Evaluate(j));
                 text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
-              //  if (j > 0.8f)
-              //      canClickAgain = true; //able to move forward slightly earlier than end fade
                 yield return new WaitForEndOfFrame();
             }
         }
-        //canClickAgain = true;
+        canClickAgain = true;
     }
 }

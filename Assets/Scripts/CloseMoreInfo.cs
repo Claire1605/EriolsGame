@@ -18,21 +18,20 @@ public class CloseMoreInfo : MonoBehaviour {
     {
         if (moveThroughScript.canClickAgain)
         {
+            moveThroughScript.popUpTextActive = false;
             popUpParent.SetActive(true);
             PopUp_MoreInfo[] activePopUps = FindObjectsOfType(typeof(PopUp_MoreInfo)) as PopUp_MoreInfo[];
             foreach (var item in activePopUps)
             {
-                item.popUpTextActive = false;
                 item.EndInteract();
             }
             StartCoroutine(moveThroughScript.FadeImage(GetComponent<Image>(), GetComponent<Image>().sprite, true, false, false));
-            StartCoroutine(moveThroughScript.FadeImage(moreInfoBgrd, moreInfoBgrd.sprite, true, false, false));
-           
             popUpParent.GetComponent<Button>().interactable = true;
             popUpParent.GetComponent<PopUpExtras>().EndInteract();
             StartCoroutine(moveThroughScript.FadeImage(popUpParent.GetComponent<Image>(), popUpParent.GetComponent<Image>().sprite, false, true, false));
             nextButton.SetActive(true);
             StartCoroutine(moveThroughScript.FadeImage(nextButton.GetComponent<Image>(), nextButton.GetComponent<Image>().sprite, false, true, false));
+            StartCoroutine(moveThroughScript.FadeImage(moreInfoBgrd, moreInfoBgrd.sprite, true, false, false));
         }
     }
 

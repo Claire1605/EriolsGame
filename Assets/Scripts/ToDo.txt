@@ -3,6 +3,7 @@ TO DO:
 - can drag car off the screen
 - can click through text quickly
 -Can change outline to yellow but might need to write new script unless they are ok with multiply outline
+-how do you want the hyperlinks to look? underlines? cursor change when hover/click?
 
 
 Suggestions:
